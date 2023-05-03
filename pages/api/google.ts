@@ -23,14 +23,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   
     setTimeout(() => controller.abort(), 100000);
   
-    const googleRes = await fetch(
-      `https://customsearch.googleapis.com/customsearch/v1?key=${
-        googleAPIKey ? googleAPIKey : process.env.GOOGLE_API_KEY
-      }&cx=${
-        googleCSEId ? googleCSEId : process.env.GOOGLE_CSE_ID
-      }&q=${query}&num=5`,
-      { signal }
-    );
+    let googleRes = null
+    while(googleRes) {
+      try {
+        googleRes = await fetch(
+          `https://customsearch.googleapis.com/customsearch/v1?key=${
+            googleAPIKey ? googleAPIKey : process.env.GOOGLE_API_KEY
+          }&cx=${
+            googleCSEId ? googleCSEId : process.env.GOOGLE_CSE_ID
+          }&q=${query}&num=5`,
+          { signal }
+        );
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    
 
     const googleData = await googleRes.json();
     console.log(googleData);
