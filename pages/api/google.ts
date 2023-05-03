@@ -21,6 +21,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const controller = new AbortController();
     const signal = controller.signal;
   
+    setTimeout(() => {
+      controller.abort();
+    }, 100000);
+  
     const googleRes = await fetch(
       `https://customsearch.googleapis.com/customsearch/v1?key=${
         googleAPIKey ? googleAPIKey : process.env.GOOGLE_API_KEY
