@@ -25,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   
     let googleRes: Response;
     let count = 0
-    while(googleRes) {
+    do {
       try {
         googleRes = await fetch(
           `https://customsearch.googleapis.com/customsearch/v1?key=${
@@ -39,11 +39,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
         console.log(err);
       }
       count ++;
-      if (count > 100) {
-        return res.status(500).json({ error: 'Overall count' });
-      }
-    }
+    } while(googleRes);
     
+    if (count >= 100) {
+      return res.status(500).json({ error: 'Overall count' });
+    }
 
     const googleData = await googleRes.json();
     console.log(googleData);
