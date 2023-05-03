@@ -31,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       }&cx=${
         googleCSEId ? googleCSEId : process.env.GOOGLE_CSE_ID
       }&q=${query}&num=5`,
-      { singal }
+      { timeout: 100000 }
     );
 
     const googleData = await googleRes.json();
