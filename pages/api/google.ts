@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   
     setTimeout(() => controller.abort(), 100000);
   
-    let googleRes = null
+    let googleRes: Response;
     let count = 0
     while(googleRes) {
       try {
