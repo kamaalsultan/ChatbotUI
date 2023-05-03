@@ -24,6 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     setTimeout(() => controller.abort(), 100000);
   
     let googleRes = null
+    let count = 0
     while(googleRes) {
       try {
         googleRes = await fetch(
@@ -36,6 +37,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
         );
       } catch(err) {
         console.log(err);
+      }
+      count ++;
+      if (count > 100) {
+        return res.status(500).json({ error: 'Overall count' });
       }
     }
     
