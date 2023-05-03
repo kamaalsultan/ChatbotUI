@@ -21,9 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const controller = new AbortController();
     const signal = controller.signal;
   
-    setTimeout(() => {
-      controller.abort();
-    }, 100000);
+    setTimeout(() => controller.abort(), 100000);
   
     const googleRes = await fetch(
       `https://customsearch.googleapis.com/customsearch/v1?key=${
@@ -31,7 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       }&cx=${
         googleCSEId ? googleCSEId : process.env.GOOGLE_CSE_ID
       }&q=${query}&num=5`,
-      { signal: signal }
+      { signal }
     );
 
     const googleData = await googleRes.json();
