@@ -17,14 +17,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
     const userMessage = messages[messages.length - 1];
     const query = encodeURIComponent(userMessage.content.trim());
-    
-    const controller = new AbortController();
-    const signal = controller.signal;
   
-    setTimeout(() => controller.abort(), 100000);
-  
-    let googleRes?: Response = undefined;
+    let googleRes: Response | undefined = undefined;
     let count = 0
+    let errMessage = '';
     do {
       try {
         googleRes = await fetch(
@@ -32,19 +28,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
             googleAPIKey ? googleAPIKey : process.env.GOOGLE_API_KEY
           }&cx=${
             googleCSEId ? googleCSEId : process.env.GOOGLE_CSE_ID
-          }&q=${query}&num=5`,
-          { signal }
+          }&q=${query}&num=5`
         );
-      } catch(err) {
-        console.log(err);
+      } catch(err: any) {
+        console.log(err.message);
+        errMessage = err.message;
       }
       count ++;
-    } while(googleRes);
+      console.log("Count ", count, googleRes?.status)
+      if (count > 30) break;
+    } while(googleRes?.status !== 200);
     
-    if (count >= 100) {
-      return res.status(500).json({ error: 'Overall count' });
+    if (count >= 30) {
+      return res.status(403).json({ error: errMessage });
     }
-    if (googleRes) {
+    if (googleRes !== undefined) {
       const googleData = await googleRes.json();
       console.log(googleData);
       const sources: GoogleSource[] = googleData.items.map((item: any) => ({
