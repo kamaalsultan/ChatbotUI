@@ -18,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const userMessage = messages[messages.length - 1];
     const query = encodeURIComponent(userMessage.content.trim());
   
-    controller = new AbortController();
+    const controller = new AbortController();
     const signal = controller.signal;
   
     let googleRes: Response | undefined = undefined;
