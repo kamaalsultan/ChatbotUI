@@ -1,10 +1,8 @@
 {
-  "routes": [
-    {
-      "src": "*",
-      "dest": "*",
-      "methods": ["GET", "POST"],
-      "apiTimeout": 30 // set timeout to 300 seconds (5 minutes)
+  "functions": {
+    "pages/api/google.js": {
+      "memory": 3000,
+      "maxDuration": 60
     }
-  ]
+  }
 }
