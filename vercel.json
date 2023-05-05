@@ -1,1 +1,10 @@
-
+{
+  "routes": [
+    {
+      "src": "/api/google",
+      "dest": "/pages/api/google.ts",
+      "methods": ["GET", "POST"],
+      "apiTimeout": 300 // set timeout to 300 seconds (5 minutes)
+    }
+  ]
+}
