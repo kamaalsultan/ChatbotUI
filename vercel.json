@@ -1,6 +1,6 @@
 {
   "functions": {
-    "pages/api/google.js": {
+    "api/google": {
       "memory": 3000,
       "maxDuration": 60
     }
