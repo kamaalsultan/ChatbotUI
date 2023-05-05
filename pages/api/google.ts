@@ -32,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           }&cx=${
             googleCSEId ? googleCSEId : process.env.GOOGLE_CSE_ID
           }&q=${query}&num=5`,
-          { signal }
+          { signal, timeout: 50000 }
         );
       } catch(err: any) {
         console.log(err.message);
