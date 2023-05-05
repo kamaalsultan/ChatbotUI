@@ -4,7 +4,7 @@
       "src": "*",
       "dest": "*",
       "methods": ["GET", "POST"],
-      "apiTimeout": 300 // set timeout to 300 seconds (5 minutes)
+      "apiTimeout": 30 // set timeout to 300 seconds (5 minutes)
     }
   ]
 }
