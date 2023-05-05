@@ -116,6 +116,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           });
         }
         const controller = new AbortController();
+        setTimeout(() => controller.abort(), 1000000);
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
