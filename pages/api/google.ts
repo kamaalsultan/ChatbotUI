@@ -18,6 +18,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const userMessage = messages[messages.length - 1];
     const query = encodeURIComponent(userMessage.content.trim());
   
+    controller = new AbortController();
+    const signal = controller.signal;
+  
     let googleRes: Response | undefined = undefined;
     let count = 0
     let errMessage = '';
@@ -28,7 +31,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
             googleAPIKey ? googleAPIKey : process.env.GOOGLE_API_KEY
           }&cx=${
             googleCSEId ? googleCSEId : process.env.GOOGLE_CSE_ID
-          }&q=${query}&num=5`
+          }&q=${query}&num=5`,
+          { signal }
         );
       } catch(err: any) {
         console.log(err.message);
